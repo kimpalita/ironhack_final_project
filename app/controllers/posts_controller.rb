@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
+	include Rewards::Give
 	before_action :authenticate_user!, :except => [:index, :browse_keyword]
+
 
 	def index
 		@posts = Post.all
@@ -50,6 +52,7 @@ class PostsController < ApplicationController
 
 		if @post.save
 			@post.create_keywords
+			Rewards::Give.reward_for_publishing_post(current_user, @post)
 			redirect_to my_posts_path
 		else
 			render 'my_posts'

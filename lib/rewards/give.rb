@@ -11,6 +11,16 @@ module Rewards
 			reward(user.id, event: :sign_up, description: "New user registration", points: 3)
 		end
 
+		def reward_for_publishing_post(user, post)
+			puts "--------------------------------"
+     		puts "--------------------------------"
+			puts "hello there, you have just been rewarded!"
+			puts "--------------------------------"
+			puts "--------------------------------"
+			reward(user.id, event: :published_post, description: "You published: #{post.title}", points: 1)
+		end
+
+
 		private
 		def reward(user_id, params)
 			Reward.new(params.merge(user_id: user_id)).save

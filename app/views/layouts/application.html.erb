@@ -23,7 +23,7 @@
 		<p>You're not signed in. 
 		<%= button_to "Log in", new_user_session_path, method: 'GET' %>
 		or
-		<%= button_to "Sign up", new_user_registration_path, method: 'GET' %></p>
+		<%= link_to "Sign up", new_user_registration_path %></p>
 	<% end %>
 </header>
 <nav class="navbar navbar-default">
