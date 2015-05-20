@@ -1,0 +1,27 @@
+<ul class="list-group">
+	
+		<% @posts.each do |post| %>
+
+				<li class="list-group-item" style="<%= 'color: lightGray' if user_signed_in? && post.user_id == @user.id %>"><h3><%= post.title %></h3><br/>
+				<%= post.substitute_content(post.content, post.extract_keywords).map{|word| %>
+					<% if post.extract_keywords.include?(word) %>
+						<%= link_to word, browse_keyword_path(word) %>
+					<% else %>
+						<%= word %>
+					<% end %>
+				<%}.join %><br/>
+
+				<% if user_signed_in? && post.user_id != @user.id %>
+					<% if @viewed_posts.include?(post) %>
+						<%= button_to "Archived", view_path(post.id), method: :get %>
+					<% else %>
+						<%= button_to "View", create_view_path(post.id) %>
+					<% end %>
+				<% end %>
+
+				<b>View count: <%= post.post_viewers.count %></b>
+				</li><br/>
+		
+		<% end %>
+
+</ul>

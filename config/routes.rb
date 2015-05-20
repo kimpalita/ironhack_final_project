@@ -1,12 +1,19 @@
 Rails.application.routes.draw do
 
-  get '/'                 => 'site#home'
+  devise_for :users, controllers: { sessions: 'users/sessions'}
 
-  get '/users'            => 'users#index'
-  get '/users/:id'        => 'users#user'
-  get '/users/:id/posts'  => 'users#posts'
-  get '/users/:id/viewed' => 'users#viewed'
-  get '/users/:id/browse' => 'users#browse'
+  root to: 'posts#index'
+
+  #get '/users'            => 'users#index'
+  get '/dashboard'        => 'users#show', as: :show_user
+  get '/my_posts'=> 'posts#my_posts', as: :my_posts
+  get '/my_posts/new'=> 'posts#new', as: :new_post
+  get '/viewed_posts' => 'posts#viewed', as: :viewed_posts
+  get '/keyword/:keyword' => 'posts#browse_keyword', as: :browse_keyword
+
+  post '/view/:post_id'    => 'viewings#create', as: :create_view
+  get '/view/:post_id'     => 'posts#show', as: :view
+  post '/posts'          => 'posts#create', as: :user_posts
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

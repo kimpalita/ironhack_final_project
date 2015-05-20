@@ -35,6 +35,10 @@ gem 'alchemy-api-rb', :require => 'alchemy_api'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'bootstrap-sass', '~> 3.3.4'
+
+gem 'devise'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
@@ -53,4 +57,6 @@ end
 group :test do
 	gem 'rspec-rails'
 end
+
+
 
