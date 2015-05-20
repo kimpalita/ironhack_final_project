@@ -9,4 +9,9 @@ class User < ActiveRecord::Base
 
 	validates :name, presence: true
 
+
+	def total_points
+		self.rewards.sum(:points)
+	end
+
 end

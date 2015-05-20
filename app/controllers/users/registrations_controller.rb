@@ -11,12 +11,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #POST /resource
   def create
     super do |resource|
-      puts "--------------------------------"
-      puts "--------------------------------"
-      puts "WELCOME #{resource.name}! YOU'VE SUCCESSFULLY SIGNED UP!"
-      puts "your id is #{resource.id}"
-      puts "--------------------------------"
-      puts "--------------------------------"
       Rewards::Give.reward_for_registration(resource)
       #Foo::Reward.user_saw_post(@user.id, @post.id)
     end

@@ -11,8 +11,7 @@
 
 <header>
 	<% if user_signed_in? %>
-		<p>Welcome, <%= current_user.name %>! You have, X pennies.</p>
-		
+		<p><%= current_user.name %>, you currently have <%= current_user.total_points %> points.</p>
 		<%= link_to "Browse", root_path %>
 		<%= link_to "My Posts", my_posts_path %>
 		<%= link_to "Viewed Posts", viewed_posts_path %>

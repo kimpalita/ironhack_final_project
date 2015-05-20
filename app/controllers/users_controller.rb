@@ -7,7 +7,8 @@ class UsersController < ApplicationController
 	#end
 
 	def show
-		#binding.pry
+		@rewards = current_user.rewards
+		@total_points = current_user.total_points
 	end
 
 end

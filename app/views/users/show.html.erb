@@ -1,1 +1,12 @@
 <h2>Hello, <%= current_user.name %>! This is your dashboard.</h2>
+
+<h3>You currently have: <%= @total_points %> Points</h3>
+<ul class="list-group">
+	<% @rewards.each do |reward| %>
+		<li class="list-group-item"><h3><%= reward.event %></h3>
+			<p><%= reward.description %></p>
+			<p><%= reward.points %></p>
+		</li>
+
+	<% end %>
+</ul>
