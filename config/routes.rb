@@ -4,16 +4,19 @@ Rails.application.routes.draw do
 
   root to: 'posts#index'
 
-  #get '/users'            => 'users#index'
+  resources :users do
+    resources :posts
+  end
+
   get '/dashboard'        => 'users#show', as: :show_user
   get '/my_posts'=> 'posts#my_posts', as: :my_posts
-  get '/my_posts/new'=> 'posts#new', as: :new_post
+  #get '/my_posts/new'=> 'posts#new', as: :new_post
   get '/viewed_posts' => 'posts#viewed', as: :viewed_posts
   get '/keyword/:keyword' => 'posts#browse_keyword', as: :browse_keyword
 
   post '/view/:post_id'    => 'viewings#create', as: :create_view
-  get '/view/:post_id'     => 'posts#show', as: :view
-  post '/posts'          => 'posts#create', as: :user_posts
+  #get '/view/:post_id'     => 'posts#show', as: :view
+  #post '/my_posts'          => 'posts#create'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

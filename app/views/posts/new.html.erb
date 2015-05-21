@@ -1,6 +1,14 @@
 <h2>Create New Post</h2>
 
-<%= form_for [@user, @post] do |f| %>
+<% if @post.errors.any? %>
+	<ul>
+		<% @post.errors.full_messages.each do |error_msg| %>
+			<li><%= error_msg %></li>
+		<% end %>	
+	</ul>
+<% end %>
+
+<%= form_for [@user, @post], html: { method: :post } do |f| %>
 	<%= f.label :title %>
 	<%= f.text_field :title %>
 	<%= f.label :content %>

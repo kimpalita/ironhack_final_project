@@ -13,7 +13,7 @@
 
 				<% if user_signed_in? && post.user_id != @user.id %>
 					<% if @viewed_posts.include?(post) %>
-						<%= button_to "Archived", view_path(post.id), method: :get %>
+						<%= button_to "Archived", user_post_path(@user.id, post.id), method: :get %>
 					<% else %>
 						<%= button_to "View", create_view_path(post.id) %>
 					<% end %>

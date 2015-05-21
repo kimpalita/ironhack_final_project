@@ -33,7 +33,7 @@ class PostsController < ApplicationController
 
 	def show
 		@user = current_user
-		@post = Post.find(params[:post_id])
+		@post = Post.find(params[:id])
 
 		#Foo::Reward.user_saw_post(@user.id, @post.id)
 	end
@@ -45,18 +45,20 @@ class PostsController < ApplicationController
 
 	def new
 		@user = current_user
-		@post = Post.new
+		@post = @user.posts.new
 	end
 
 	def create
-		@post = current_user.posts.create post_params
-
+		@user = current_user
+		@post = @user.posts.new post_params
 		if @post.save
 			@post.create_keywords
 			Rewards::Give.reward_for_publishing_post(current_user, @post)
 			redirect_to my_posts_path
 		else
-			render 'new'
+			#@user = current_user
+			#@post = current_user.posts.new post_params
+			render :new
 		end
 	end
 

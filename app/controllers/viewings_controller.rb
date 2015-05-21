@@ -3,11 +3,12 @@ class ViewingsController < ApplicationController
 	include Rewards::Spend
 
 	def create
-		if safe_to_spend?(current_user)
+
+		if safe_to_spend?(current_user, viewing)
 			Viewing.where(viewer_id: current_user.id, viewed_post_id: params[:post_id]).first_or_create
 			Rewards::Give.reward_for_recieving_view(current_user, params[:post_id])
 			Rewards::Spend.reward_for_viewing(current_user, params[:post_id])
-			redirect_to view_path
+			redirect_to user_post_path(current_user.id, params[:post_id])
 		else
 			@posts = Post.all
 			@user = current_user

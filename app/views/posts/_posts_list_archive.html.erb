@@ -1,7 +1,7 @@
 <ul class="list-group">
 	<% @posts.each do |post| %>
 			<li class="list-group-item"><h3><%= post.title %></h3>
-			<%= link_to "View", view_path(post.id) %><br/>
+			<%= link_to "View", user_post_path(current_user.id, post.id) %><br/>
 			<b>View count: <%= post.post_viewers.count %></b>
 			</li><br/>
 	<% end %>

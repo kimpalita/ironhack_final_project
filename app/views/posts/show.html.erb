@@ -4,7 +4,7 @@
 <h3><%= @post.title %></h3>
 <p><%= @post.split_keywords_in_content(@post.content, @post.extract_keywords).map{|word| %>
 	<% if @post.extract_keywords.include?(word) %>
-			<%= link_to word, browse_keyword_path(word), {:style=>'font-weight:bold;'} %>
+				<%= link_to word, browse_keyword_path(word), {:style=>'font-weight:bold;'} %>
 	<% else %>
 		<%= word %>
 	<% end %>
