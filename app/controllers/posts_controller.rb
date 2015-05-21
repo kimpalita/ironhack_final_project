@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
 	include Rewards::Give
+	include Rewards::Spend
 	before_action :authenticate_user!, :except => [:index, :browse_keyword]
 
 
@@ -55,7 +56,7 @@ class PostsController < ApplicationController
 			Rewards::Give.reward_for_publishing_post(current_user, @post)
 			redirect_to my_posts_path
 		else
-			render 'my_posts'
+			render 'new'
 		end
 	end
 

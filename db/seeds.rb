@@ -10,17 +10,13 @@ a = User.create name: "Kim", email: "kim@mail.com", password: "12345678", passwo
 b = User.create name: "Mark", email: "mark@mail.com", password: "12345678", password_confirmation: "12345678"
 c = User.create name: "Jas", email: "jas@mail.com", password: "12345678", password_confirmation: "12345678"
 
-User.all.map do |user|
-	user.posts.create(title: "#{user.name}'s First Post", content: "Words are but wind; and learning is nothing but words; ergo, learning is nothing but wind.")
-end
 
-User.all.map do |user|
-	user.posts.create(title: "#{user.name}'s Second Post", content: "I’ve missed more than 9000 shots in my career. I’ve lost almost 300 games. 26 times I’ve been trusted to take the game winning shot and missed. I’ve failed over and over and over again in my life. And that is why I succeed.")
-end
+a.posts.create(title: "#{a.name}'s First Post", content: "Words are but wind; and learning is nothing but words; ergo, learning is nothing but wind.")
 
-User.all.map do |user|
-	user.posts.create(title: "#{user.name}'s Third Post", content: "Twenty years from now you will be more disappointed by the things that you didn’t do than by the ones you did do, so throw off the bowlines, sail away from safe harbor, catch the trade winds in your sails.  Explore, Dream, Discover.")
-end
+b.posts.create(title: "#{b.name}'s Second Post", content: "I’ve missed more than 9000 shots in my career. I’ve lost almost 300 games. 26 times I’ve been trusted to take the game winning shot and missed. I’ve failed over and over and over again in my life. And that is why I succeed.")
+
+c.posts.create(title: "#{c.name}'s Third Post", content: "Twenty years from now you will be more disappointed by the things that you didn’t do than by the ones you did do, so throw off the bowlines, sail away from safe harbor, catch the trade winds in your sails.  Explore, Dream, Discover.")
+
 #
 #a.posts_viewed.create(viewed_post_id: "2")
 #a.posts_viewed.create(viewed_post_id: "3")

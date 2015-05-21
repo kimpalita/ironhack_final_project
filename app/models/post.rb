@@ -11,8 +11,8 @@ class Post < ActiveRecord::Base
 	end
 
 	def extract_keywords
-		keyword_array = self.keywords.map { |hash| hash.name }
-		keyword_array
+		self.keywords.map { |hash| hash.name }
+
 	end
 
 	def substitute_content(str, keywords)

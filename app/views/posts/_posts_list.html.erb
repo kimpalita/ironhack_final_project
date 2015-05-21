@@ -4,7 +4,7 @@
 
 				<li class="list-group-item" style="<%= 'color: lightGray' if user_signed_in? && post.user_id == @user.id %>"><h3><%= post.title %></h3><br/>
 				<%= post.substitute_content(post.content, post.extract_keywords).map{|word| %>
-					<% if post.extract_keywords.include?(word) %>
+					<% if Keyword.recurring_keyword?(word) %>
 						<%= link_to word, browse_keyword_path(word) %>
 					<% else %>
 						<%= word %>
@@ -23,5 +23,4 @@
 				</li><br/>
 		
 		<% end %>
-
 </ul>

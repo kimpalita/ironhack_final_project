@@ -1,9 +1,13 @@
 module Rewards
-	module Take
+	module Spend
 		extend self
 
 		def say_hello
 			puts "hello there, you have just been rewarded!"
+		end
+
+		def safe_to_spend?(user) #add callback to argument
+			user.total_points > 0 #need more algorithm once further point system is developed
 		end
 
 		def reward_for_viewing(viewer, post_id)
