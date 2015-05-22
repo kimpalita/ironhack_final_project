@@ -1,13 +1,11 @@
 module Rewards
 	module Spend
+		@@viewing_post = 1
+
 		extend self
 
-		def say_hello
-			puts "hello there, you have just been rewarded!"
-		end
-
-		def safe_to_spend?(user, event_reference) #add callback to argument
-			user.total_points >= event_reference #need more algorithm once further point system is developed
+		def safe_to_spend?(user, event_reference)
+			user.total_points >= event_reference
 		end
 
 		def reward_for_viewing(viewer, post_id)
@@ -16,16 +14,12 @@ module Rewards
 			puts "--------------------------------"
 			post = Post.find(post_id)
 			author = User.find(post.user_id)
-			reward(viewer.id, event: :viewing_post, description: "You viewed the post: #{post.title}, by #{author.name}", points: -viewing)
+			reward(viewer.id, event: :viewing_post, description: "You viewed the post: #{post.title}, by #{author.name}", points: -@@viewing_post)
 		end
 
 		private
 		def reward(user_id, params)
 			Reward.new(params.merge(user_id: user_id)).save
-		end
-
-		def viewing
-			1
 		end
 	end
 end

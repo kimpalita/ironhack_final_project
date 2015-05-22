@@ -1,5 +1,9 @@
 module Rewards
 	module Give
+		@@registration = 3
+		@@publishing = 1
+		@@receiving_view = 1
+		
 		extend self
 
 		def say_hello
@@ -10,23 +14,23 @@ module Rewards
      		puts "--------------------------------"
 			puts "hello there, you have just been rewarded for REGISTRATION!"
 			puts "--------------------------------"
-			reward(user.id, event: :sign_up, description: "New user registration", points: 3)
+			reward(user.id, event: :sign_up, description: "New user registration", points: @@registration)
 		end
 
 		def reward_for_publishing_post(user, post)
      		puts "--------------------------------"
 			puts "hello there, you have just been rewarded for PUBLISHING POST!"
 			puts "--------------------------------"
-			reward(user.id, event: :published_post, description: "You published: #{post.title}", points: 1)
+			reward(user.id, event: :published_post, description: "You published: #{post.title}", points: @@publishing)
 		end
 
-		def reward_for_recieving_view(viewer, post_id)
+		def reward_for_receiving_view(viewer, post_id)
      		puts "--------------------------------"
-			puts "hello there, you have just been rewarded for RECIEVING VIEW!"
+			puts "hello there, you have just been rewarded for RECEIVING VIEW!"
 			puts "--------------------------------"
 			post = Post.find(post_id)
 			user = User.find(post.user_id)
-			reward(user.id, event: :recieved_view, description: "#{viewer.name} viewed your post: #{post.title}", points: 1)
+			reward(user.id, event: :recieved_view, description: "#{viewer.name} viewed your post: #{post.title}", points: @@receiving_view)
 		end
 
 		private

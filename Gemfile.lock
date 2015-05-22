@@ -36,6 +36,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    acts_as_votable (0.10.0)
     alchemy-api-rb (0.5.2)
       excon (~> 0.28)
       faraday (~> 0.9.0)
@@ -196,6 +197,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acts_as_votable (~> 0.10.0)
   alchemy-api-rb
   bootstrap-sass (~> 3.3.4)
   byebug

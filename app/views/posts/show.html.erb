@@ -2,13 +2,23 @@
 <p>Displaying the full contents of the post.</p>
 
 <h3><%= @post.title %></h3>
-<p><%= @post.split_keywords_in_content(@post.content, @post.extract_keywords).map{|word| %>
-	<% if @post.extract_keywords.include?(word) %>
-				<%= link_to word, browse_keyword_path(word), {:style=>'font-weight:bold;'} %>
-	<% else %>
-		<%= word %>
-	<% end %>
-<%}.join %><br/></p>
+
+<p>
+<% if @post.keywords.any? %>
+<% @post.split_keywords_in_content.map{|word| %>
+	
+	<% if Keyword.recurring_keyword?(word) %>
+        <%= link_to word, browse_keyword_path(word), style:"font-weight:bold;" %>
+    <% elsif @post.extract_keywords.include?(word) %>
+    	  <b><%= word %></b>
+    <% else %>
+        <%= word %>
+    <% end %>
+    <% }.join %>
+<% else %>
+	<%= @post.content %>
+<% end %>
+
 
 <p><b>View count: <%= @post.post_viewers.count %></b></p>
 <% if @post.user_id != current_user.id %>

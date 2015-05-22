@@ -3,13 +3,17 @@
 		<% @posts.each do |post| %>
 
 				<li class="list-group-item" style="<%= 'color: lightGray' if user_signed_in? && post.user_id == @user.id %>"><h3><%= post.title %></h3><br/>
-				<%= post.substitute_content(post.content, post.extract_keywords).map{|word| %>
-					<% if Keyword.recurring_keyword?(word) %>
-						<%= link_to word, browse_keyword_path(word) %>
-					<% else %>
-						<%= word %>
-					<% end %>
-				<%}.join %><br/>
+
+				<%  post.substitute_content.map{|word| %>
+                          <% if Keyword.recurring_keyword?(word) %>
+                              <%= link_to word, browse_keyword_path(word), style:"font-weight:bold;" %>
+                          <% elsif post.extract_keywords.include?(word) %>
+                          	  <b><%= word %></b>
+                          <% else %>
+                              <%= word %>
+                         <% end %>
+                          <% } %>
+				<br/>
 
 				<% if user_signed_in? && post.user_id != @user.id %>
 					<% if @viewed_posts.include?(post) %>
