@@ -10,7 +10,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   #POST /resource
   def create
-    
     super do |resource|
       Rewards::Give.reward_for_registration(resource)
       #Foo::Reward.user_saw_post(@user.id, @post.id)

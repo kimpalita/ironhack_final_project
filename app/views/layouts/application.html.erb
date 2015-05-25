@@ -12,6 +12,7 @@
 <header>
 	<% if user_signed_in? %>
 		<p><%= current_user.name %>, you currently have <%= current_user.total_points %> points.</p>
+		<%= image_tag @current_user.avatar.url(:thumb) %>
 		<%= link_to "Browse", root_path %>
 		<%= link_to "My Posts", post_author_path(current_user.id) %>
 		<%= link_to "Viewed Posts", viewed_posts_path %>
