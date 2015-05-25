@@ -2,7 +2,15 @@
 	
 		<% @posts.each do |post| %>
 
-				<li class="list-group-item" style="<%= 'color: lightGray' if user_signed_in? && post.user_id == @user.id %>"><h3><%= post.title %></h3><br/>
+				<li class="list-group-item" style="<%= 'color: lightGray' if user_signed_in? && post.user_id == @user.id %>"><h3><%= post.title %></h3>
+				
+				<p>Author:
+				<% if user_signed_in? && current_user.id == post.user_id %>
+					<%= link_to User.find(post.user_id).name, user_path(current_user.id) %>
+				<% else %>
+					<%= link_to User.find(post.user_id).name, post_author_path(post.user_id) %>
+				<% end %>
+				</p>
 
 				<%  post.substitute_content.map{|word| %>
                           <% if Keyword.recurring_keyword?(word) %>
@@ -23,7 +31,9 @@
 					<% end %>
 				<% end %>
 
-				<b>View count: <%= post.post_viewers.count %></b>
+				<b>View count: <%= post.post_viewers.count %></b><br/>
+				<b>Likes: <%= post.get_likes.size %></b><br/>
+				<b>Likes: <%= post.get_dislikes.size %></b>
 				</li><br/>
 		
 		<% end %>

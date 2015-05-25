@@ -3,6 +3,8 @@ module Rewards
 		@@registration = 3
 		@@publishing = 1
 		@@receiving_view = 1
+		@@receiving_like = 1
+		#@@receiving_comment = 0
 		
 		extend self
 
@@ -11,26 +13,42 @@ module Rewards
 		end
 
 		def reward_for_registration(user)
-     		puts "--------------------------------"
-			puts "hello there, you have just been rewarded for REGISTRATION!"
-			puts "--------------------------------"
-			reward(user.id, event: :sign_up, description: "New user registration", points: @@registration)
+			reward(user.id, event: :sign_up, description: "You created an account!",
+				subject: nil, object: nil, points: @@registration)
 		end
 
 		def reward_for_publishing_post(user, post)
-     		puts "--------------------------------"
-			puts "hello there, you have just been rewarded for PUBLISHING POST!"
-			puts "--------------------------------"
-			reward(user.id, event: :published_post, description: "You published: #{post.title}", points: @@publishing)
+			reward(user.id, event: :published_post, description: "You published a post: ",
+				subject: nil, object: post.id, points: @@publishing)
 		end
 
 		def reward_for_receiving_view(viewer, post_id)
+			post = Post.find(post_id)
+			user = User.find(post.user_id)
+			reward(user.id, event: :recieved_view, description: " viewed your post: ",
+				subject: viewer.id, object: post_id, points: @@receiving_view)
+		end
+
+		def reward_for_receiving_like(viewer, post_id)
      		puts "--------------------------------"
-			puts "hello there, you have just been rewarded for RECEIVING VIEW!"
+			puts "hello there, you have just been rewarded for RECEIVING LIKE!"
 			puts "--------------------------------"
 			post = Post.find(post_id)
 			user = User.find(post.user_id)
-			reward(user.id, event: :recieved_view, description: "#{viewer.name} viewed your post: #{post.title}", points: @@receiving_view)
+			reward(user.id, event: :received_like, description: " liked your post: ",
+				subject: viewer.id, object: post.id, points: nil)
+		end
+
+		def notice_for_receiving_comment(commentor, post)
+			user = User.find(post.user_id)
+			reward(user.id, event: :received_comment, description: " commented on your post: ",
+				subject: commentor.id, object: post.id, points: nil)
+		end
+
+		def notice_for_giving_comment(commentor, post)
+			user = User.find(commentor.id)
+			reward(user.id, event: :gave_comment, description: "You commented on the post: ",
+				subject: nil, object: post.id, points: nil)
 		end
 
 		private

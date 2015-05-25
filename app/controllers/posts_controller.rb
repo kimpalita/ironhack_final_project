@@ -7,6 +7,7 @@ class PostsController < ApplicationController
 	def index
 		@posts = Post.all
 		@user = current_user
+
 		if user_signed_in?
 			@viewed_posts = @user.posts_viewed.map {|post| Post.where('id=?', post.viewed_post_id)}.flatten
 		else
@@ -26,16 +27,17 @@ class PostsController < ApplicationController
 		end
 	end
 
-	def my_posts
-		@user = current_user
+	def posts_by_author
+		@user = User.find(params[:user_id])
 		@posts = @user.posts
 	end
 
 	def show
 		@user = current_user
 		@post = Post.find(params[:id])
-
+		@comments = @post.comments
 		#Foo::Reward.user_saw_post(@user.id, @post.id)
+		@comment = Comment.new
 	end
 
 	def viewed
@@ -62,7 +64,27 @@ class PostsController < ApplicationController
 		end
 	end
 
-	def delete
+	def like
+	  @user = current_user
+	  @post = Post.find(params[:id])
+	  unless @user.voted_for? @post
+	  	@post.liked_by current_user
+	  	Rewards::Give.reward_for_receiving_like(current_user, @post)
+	  end
+	  render 'show'
+	end
+
+	def dislike
+		@user = current_user
+	  	@post = Post.find(params[:id])
+	  	@post.disliked_by current_user
+	  	render 'show'
+	end
+
+	def destroy
+		@post = Post.find(params[:id])
+		@post.destroy
+		redirect_to my_posts_path
 	end
 
 	private
@@ -70,4 +92,6 @@ class PostsController < ApplicationController
 	def post_params
 		params.require(:post).permit(:title, :content)
 	end
+
+
 end

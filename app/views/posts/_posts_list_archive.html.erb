@@ -1,6 +1,7 @@
 <ul class="list-group">
 	<% @posts.each do |post| %>
 			<li class="list-group-item"><h3><%= post.title %></h3>
+			<p>Author: <%= link_to User.find(post.user_id).name, post_author_path(post.user_id) %></p>
 			<%= link_to "View", user_post_path(current_user.id, post.id) %><br/>
 			<b>View count: <%= post.post_viewers.count %></b>
 			</li><br/>

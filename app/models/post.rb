@@ -2,6 +2,9 @@ class Post < ActiveRecord::Base
 	belongs_to :user
 	has_many :post_viewers, :class_name => "Viewing", :foreign_key => "viewed_post_id"
 	has_many :keywords
+	has_many :comments
+
+	acts_as_votable
 
 	validates :content, uniqueness: true
 	validates :title, uniqueness: true
@@ -16,7 +19,6 @@ class Post < ActiveRecord::Base
 
 	def extract_keywords
 		self.keywords.map { |hash| hash.name }
-
 	end
 
 	def substitute_content

@@ -14,7 +14,7 @@ module Rewards
 			puts "--------------------------------"
 			post = Post.find(post_id)
 			author = User.find(post.user_id)
-			reward(viewer.id, event: :viewing_post, description: "You viewed the post: #{post.title}, by #{author.name}", points: -@@viewing_post)
+			reward(viewer.id, event: :viewing_post, description: "You viewed the post: ", subject: nil, object: post_id, points: -@@viewing_post)
 		end
 
 		private

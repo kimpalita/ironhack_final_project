@@ -13,10 +13,10 @@
 	<% if user_signed_in? %>
 		<p><%= current_user.name %>, you currently have <%= current_user.total_points %> points.</p>
 		<%= link_to "Browse", root_path %>
-		<%= link_to "My Posts", my_posts_path %>
+		<%= link_to "My Posts", post_author_path(current_user.id) %>
 		<%= link_to "Viewed Posts", viewed_posts_path %>
 		<%= link_to "Create New Post", new_user_post_path(current_user.id) %>
-		<%= link_to "Dashboard", show_user_path %>
+		<%= link_to "Dashboard", user_path(current_user) %>
 		<%= link_to "Log out", destroy_user_session_path, method: 'DELETE' %>
 	<% else %>
 		<p>You're not signed in. 

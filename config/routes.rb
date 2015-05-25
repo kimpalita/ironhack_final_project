@@ -8,15 +8,19 @@ Rails.application.routes.draw do
     resources :posts
   end
 
-  get '/dashboard'        => 'users#show', as: :show_user
-  get '/my_posts'=> 'posts#my_posts', as: :my_posts
-  #get '/my_posts/new'=> 'posts#new', as: :new_post
+  #get '/dashboard'        => 'users#show', as: :show_user
+  get '/post_author/:user_id'=> 'posts#posts_by_author', as: :post_author
   get '/viewed_posts' => 'posts#viewed', as: :viewed_posts
   get '/keyword/:keyword' => 'posts#browse_keyword', as: :browse_keyword
 
   post '/view/:post_id'    => 'viewings#create', as: :create_view
   #get '/view/:post_id'     => 'posts#show', as: :view
   #post '/my_posts'          => 'posts#create'
+  post '/users/:user_id/posts/:id/like' => 'posts#like', as: :like_post
+  post '/users/:user_id/posts/:id/dislike' => 'posts#dislike', as: :dislike_post
+  post '/users/:user_id/posts/:id' => 'comments#create', as: :comments
+
+  get 'public_profile/:id' => 'users#profile', as: :user_profile
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

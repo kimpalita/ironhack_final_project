@@ -21,7 +21,29 @@
 
 
 <p><b>View count: <%= @post.post_viewers.count %></b></p>
-<% if @post.user_id != current_user.id %>
-	<button>Like</button>
-	<button>Dislike</button>
+<p>Likes: <div id="likes-counter" ><%= @post.get_likes.size %></div></p>
+<p>Dislikes: <div id="dislikes-counter" ><%= @post.get_dislikes.size %></div></p>
+
+<div class="button-group">
+     <%= button_to "LIKE", like_post_path(@user, @post), :remote => true, method: :post, class: "like-button" %>
+     <%= button_to "DISLIKE", dislike_post_path(@user, @post), :remote => true, method: :post, class: "dislike-button" %>
+</div>
+
+ <% if @post.user_id == current_user.id %>
+                <%= button_to "Delete", [current_user, @post], method: :delete %>
+<% end %>
+
+<h3>Comments (<%= @comments.count %>)</h3>
+<% if @post.comments.count > 0 %>
+<ul>
+<% @comments.each do |comment| %>
+    <li><%= comment.body %> <%= link_to User.find(comment.user_id).name, post_author_path(comment.user_id) %><br/>
+<% end %>
+</ul>
+<% end %>
+
+<%= form_for @comment, html: { method: :post } do |f| %>
+    <%= f.label :body %>
+    <%= f.text_field :body %>
+    <%= f.submit('Comment') %>
 <% end %>
