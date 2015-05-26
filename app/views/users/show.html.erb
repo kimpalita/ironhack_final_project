@@ -1,15 +1,39 @@
-<h2>Hello, <%= current_user.name %>! This is your dashboard.</h2>
+<div class="page-header">
+  <h3>Event Log <small> You currently have <%= current_user.total_points %> pennies</small></h3>
+</div>
 
-<h3>You currently have: <%= @total_points %> Points</h3>
+<%= render 'posts/penny_alert' %>
+
 <ul class="list-group">
 	<% @rewards.each do |reward| %>
-		<li class="list-group-item"><p>
-			<%= link_to User.find(reward.subject).name, post_author_path(reward.subject) if reward.subject != nil %>
-			<%= reward.description %>
-			<%= link_to Post.find(reward.object).title, user_post_path(current_user.id, reward.object) if reward.object != nil %>
-			</p>
-			<p><%= reward.points %></p>
-		</li>
+		<li class="list-group-item">
+		  <div class="row">
+		  	<div class="col-md-10">
+		  	  <p>
+				<% if reward.subject != nil && User.find_by_id(reward.subject) != nil %>
+					<%= link_to post_author_path(reward.subject) do %> 
+						<%= image_tag User.find(reward.subject).avatar.url(:thumb) %>
+						<%=  User.find(reward.subject).name %>
+					<% end %>
+				<% elsif reward.subject != nil %>
+					<span class="non-existent">User no longer exists</span>
+				<% end %>
 
+				<%= reward.description %>
+
+				<% if reward.object != nil && Post.find_by_id(reward.object) != nil %>
+					<%= link_to Post.find(reward.object).title, user_post_path(current_user.id, reward.object) %>
+				<% elsif Post.find_by_id(reward.object) == nil %>
+					<span class="non-existent">Post no longer exists</span>
+				<% end %>
+		      </p>
+			</div>
+			<div class="col-md-2">
+				<% unless reward.points.nil? %>
+				<div class="reward-points"><%= reward.points %></div>
+				<% end %>
+			</div>
+		  </div>
+		</li>
 	<% end %>
 </ul>

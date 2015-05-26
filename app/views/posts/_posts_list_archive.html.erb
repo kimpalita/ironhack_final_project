@@ -1,9 +1,39 @@
 <ul class="list-group">
 	<% @posts.each do |post| %>
-			<li class="list-group-item"><h3><%= post.title %></h3>
-			<p>Author: <%= link_to User.find(post.user_id).name, post_author_path(post.user_id) %></p>
-			<%= link_to "View", user_post_path(current_user.id, post.id) %><br/>
-			<b>View count: <%= post.post_viewers.count %></b>
-			</li><br/>
+		<li class="list-group-item">
+			<div class="row meta-toolbar">
+					<div class="col-md-6">
+					<p><%= post.created_at.strftime("%m %b") %>
+						<% if post.user_id != current_user.id %>
+						<span class="date-viewed">(viewed: <%= Viewing.where('viewer_id=? AND viewed_post_id=?', current_user.id, post.id).first.created_at.strftime("%m %b") %>)</span>
+						<% end %>
+					</p>
+					</div>
+					<div class="col-md-6">
+						<div class="right">
+						  <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><%= post.post_viewers.count %> 
+						  <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span><%= post.get_likes.size %> 
+						  <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span><%= post.get_dislikes.size %> 
+					  	</div>
+					</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-8">
+					<h1>
+						<%= post.title %>
+						<span class="author-link">
+							<%= image_tag User.find(post.user_id).avatar.url(:thumb), class: "avatar" %>
+							<%= link_to User.find(post.user_id).name, post_author_path(post.user_id) %>
+						</span>
+					</h1>
+				</div>
+				<div class="col-md-4">
+				<div class="right">
+					<%= button_to "View Contents", user_post_path(@user.id, post.id), method: :get, class: "btn btn-primary btn-lg"%>
+				</div>
+				</div>
+			</div>
+		</li>
 	<% end %>
 </ul>

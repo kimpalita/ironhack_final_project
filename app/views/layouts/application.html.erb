@@ -2,36 +2,59 @@
 <html>
 <head>
   <title>Myproject</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <link href="/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 <div class="container">
 
-<header>
-	<% if user_signed_in? %>
-		<p><%= current_user.name %>, you currently have <%= current_user.total_points %> points.</p>
-		<%= image_tag @current_user.avatar.url(:thumb) %>
-		<%= link_to "Browse", root_path %>
-		<%= link_to "My Posts", post_author_path(current_user.id) %>
-		<%= link_to "Viewed Posts", viewed_posts_path %>
-		<%= link_to "Create New Post", new_user_post_path(current_user.id) %>
-		<%= link_to "Dashboard", user_path(current_user) %>
-		<%= link_to "Log out", destroy_user_session_path, method: 'DELETE' %>
-	<% else %>
-		<p>You're not signed in. 
-		<%= button_to "Log in", new_user_session_path, method: 'GET' %>
-		or
-		<%= link_to "Sign up", new_user_registration_path %></p>
-	<% end %>
-</header>
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-inverse">
   <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-      <%= link_to "Penny For Thoughts", root_path, class: "navbar-brand" %>
+      <%= link_to "Tatter", root_path, class: "navbar-brand" %>
     </div>
-  </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><%= link_to "Browse", root_path %></li>
+        
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right">
+		<% if user_signed_in? %>
+	      	<li>
+				<%= button_to user_path(current_user.id), method: :get, class: "btn btn-default navbar-btn" do %>
+					<span class="glyphicon glyphicon-heart" ></span><%= current_user.total_points %>
+				<% end %>
+	        </li>
+	      	<li>
+	        	<%= button_to new_user_post_path(current_user.id), method: :get, class: "btn btn-default navbar-btn" do %>
+	                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>New Post
+	            <% end %>
+	        </li>
+	        <li class="dropdown">
+	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+			  <%= image_tag current_user.avatar.url(:small), class: "avatar" %>
+	          <%= current_user.name %> <span class="caret"></span></a>
+	          <ul class="dropdown-menu" role="menu">
+	            <li><%= link_to "Viewed Posts", viewed_posts_path %></li>
+	            <li><%= link_to "My Posts", my_posts_path %></li>
+	            <li><%= link_to "Event Log", user_path(current_user) %></li>
+	            <li class="divider"></li>
+	            <li><%= link_to "Edit Account" %></li>
+	            <li><%= link_to "Log out", destroy_user_session_path, method: 'DELETE' %></li>
+	            <% else %>
+	            <li><%= button_to "Sign in", new_user_session_path, method: :get, class: "btn btn-default navbar-btn" %></li>
+	            <li><%= button_to "Sign up", new_user_registration_path, method: :get, class: "btn btn-default navbar-btn" %></li>
+            <% end %>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
 </nav>
 
 <%= yield %>

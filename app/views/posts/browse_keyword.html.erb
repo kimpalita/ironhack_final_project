@@ -1,4 +1,5 @@
-<h2><%= @posts.count %> Posts containing keyword: '<%= @keyword %>'</h2>
-<p>For user browsing - this lists all post except for those already viewed by the user. Posts created by the user is displayed in gray.</p>
+<div class="page-header">
+  <h3><%= @posts.count %> Posts containing keyword: '<%= @keyword %>'</h3>
+</div>
 
 <%= render 'posts_list' %>

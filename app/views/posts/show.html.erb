@@ -1,49 +1,106 @@
-<h2>View Post Page</h2>
-<p>Displaying the full contents of the post.</p>
+<div class="single-post-container">
+    <div class="row">
+        <div class="col-md-8">
+          <h1>
+            <%= @post.title %>
+            <span class="author-link">
+                <%= image_tag User.find(@post.user_id).avatar.url(:thumb), class: "avatar" %>
+                <%= link_to User.find(@post.user_id).name, post_author_path(@post.user_id) %>
+            </span>
+          </h1>
+        </div>
+        <div class="col-md-4">
+          <div class="button-group right">
+              <% if @post.user_id == current_user.id %>
+                        <%= button_to [current_user, @post], method: :delete, class: "btn btn-default btn-sm" do %>
+                        <span class="glyphicon glyphicon-trash white"></span>Delete this post
+                        <% end %>
+              <% else %>
+                
+                <% if @user.voted_as_when_voted_for @post %>
+                    <p><span class="red">You liked this post!</span></p>
+                <% elsif @user.voted_as_when_voted_for(@post).nil? %>
+                    <%= button_to like_post_path(@user, @post), :remote => true, method: :post, class: "btn btn-primary btn-sm like-button" do %>
+                    <span class="glyphicon glyphicon-thumbs-up white"></span>Like
+                    <% end %>
+                    <%= button_to dislike_post_path(@user, @post), :remote => true, method: :post, class: "btn btn-primary btn-sm dislike-button" do %>
+                        <span class="glyphicon glyphicon-thumbs-down white"></span>Dislike
+                    <% end %>
+                <% else %>
+                    <p><span class="red">You disliked this post!</span></p>
+                <% end %>
 
-<h3><%= @post.title %></h3>
+              <% end %>
+          </div>
+        </div>
+    </div>
+    <div class="row meta-toolbar">
+        <div class="col-md-6">
+            <p><%= @post.created_at.strftime("%m %b") %></p>
+        </div>
+        <div class="col-md-6">
+            <div class="right">
+                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><%= @post.post_viewers.count %> 
+                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span><%= @post.get_likes.size %> 
+                <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span><%= @post.get_dislikes.size %>
+            </div>
+        </div>
+    </div>
+    <div class="post-content">
+        <p>
+            <% if @post.keywords.any? %>
+                <% @post.split_keywords_in_content.map{|word| %>
+                <% if Keyword.recurring_keyword?(word) %>
+                    <%= link_to word, browse_keyword_path(word), style:"font-weight:bold;" %>
+                <% elsif @post.extract_keywords.include?(word) %>
+                    <b><%= word %></b>
+                <% else %>
+                    <%= word %>
+                <% end %>
+                <% }.join %>
+            <% else %>
+                <%= @post.content %>
+            <% end %>
+        </p>
+    </div>
+</div>
+<div class="comments-section">
+        <div class="row">
+            <div class="col-md-12">
+                <h3>Comments <small>(<%= @comments.count %>)</small></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 comment-form">
+                <%= form_for @comment, html: { method: :post } do |f| %>
+                <%= f.text_field :body, :style => 'display:inline-block;' %>
+                <%= f.submit 'Add comment', :class => 'btn btn-primary btn-sm' %>
+                <% end %>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 comment-list">
+                <ul class="media-list">
+                    <% if @post.comments.count > 0 %>
+                        <% @comments.each do |comment| %>
+                            <li class="media">
+                                <div class="media-body">
+                                <h4 class="media-heading">
+                                    <%= image_tag User.find(comment.user_id).avatar.url(:thumb), class: "avatar" %>
+                                    <%= link_to User.find(comment.user_id).name, post_author_path(comment.user_id) %>
+                                </h4>
+                                <%= comment.body %>
+                                </div>
+                            </li>
+                        <% end %>
+                    <% end %>
+                </ul>
+            </div>
+        </div>
 
-<p>
-<% if @post.keywords.any? %>
-<% @post.split_keywords_in_content.map{|word| %>
-	
-	<% if Keyword.recurring_keyword?(word) %>
-        <%= link_to word, browse_keyword_path(word), style:"font-weight:bold;" %>
-    <% elsif @post.extract_keywords.include?(word) %>
-    	  <b><%= word %></b>
-    <% else %>
-        <%= word %>
-    <% end %>
-    <% }.join %>
-<% else %>
-	<%= @post.content %>
-<% end %>
-
-
-<p><b>View count: <%= @post.post_viewers.count %></b></p>
-<p>Likes: <div id="likes-counter" ><%= @post.get_likes.size %></div></p>
-<p>Dislikes: <div id="dislikes-counter" ><%= @post.get_dislikes.size %></div></p>
-
-<div class="button-group">
-     <%= button_to "LIKE", like_post_path(@user, @post), :remote => true, method: :post, class: "like-button" %>
-     <%= button_to "DISLIKE", dislike_post_path(@user, @post), :remote => true, method: :post, class: "dislike-button" %>
 </div>
 
- <% if @post.user_id == current_user.id %>
-                <%= button_to "Delete", [current_user, @post], method: :delete %>
-<% end %>
 
-<h3>Comments (<%= @comments.count %>)</h3>
-<% if @post.comments.count > 0 %>
-<ul>
-<% @comments.each do |comment| %>
-    <li><%= comment.body %> <%= link_to User.find(comment.user_id).name, post_author_path(comment.user_id) %><br/>
-<% end %>
-</ul>
-<% end %>
 
-<%= form_for @comment, html: { method: :post } do |f| %>
-    <%= f.label :body %>
-    <%= f.text_field :body %>
-    <%= f.submit('Comment') %>
-<% end %>
+
+

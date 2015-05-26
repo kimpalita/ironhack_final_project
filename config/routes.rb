@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   #get '/dashboard'        => 'users#show', as: :show_user
   get '/post_author/:user_id'=> 'posts#posts_by_author', as: :post_author
   get '/viewed_posts' => 'posts#viewed', as: :viewed_posts
+  get '/my_posts' => 'posts#my_posts', as: :my_posts
   get '/keyword/:keyword' => 'posts#browse_keyword', as: :browse_keyword
 
   post '/view/:post_id'    => 'viewings#create', as: :create_view

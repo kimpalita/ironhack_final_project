@@ -36,7 +36,7 @@ module Rewards
 			post = Post.find(post_id)
 			user = User.find(post.user_id)
 			reward(user.id, event: :received_like, description: " liked your post: ",
-				subject: viewer.id, object: post.id, points: nil)
+				subject: viewer.id, object: post.id, points: @@receiving_like)
 		end
 
 		def notice_for_receiving_comment(commentor, post)

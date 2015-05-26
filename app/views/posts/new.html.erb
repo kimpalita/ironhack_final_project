@@ -1,4 +1,6 @@
-<h2>Create New Post</h2>
+<div class="page-header">
+  <h3>Create New Post</h3>
+</div>
 
 <% if @post.errors.any? %>
 	<ul>
@@ -8,7 +10,7 @@
 	</ul>
 <% end %>
 
-<%= form_for [@user, @post], html: { method: :post } do |f| %>
+<%= form_for [current_user, @post], html: { method: :post } do |f| %>
 	<%= f.label :title %>
 	<%= f.text_field :title %>
 	<%= f.label :content %>

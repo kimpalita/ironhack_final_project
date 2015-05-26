@@ -7,7 +7,7 @@ class UsersController < ApplicationController
 	#end
 
 	def show
-		@rewards = current_user.rewards
+		@rewards = current_user.rewards.order(created_at: :desc)
 		@total_points = current_user.total_points
 	end
 

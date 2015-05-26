@@ -27,9 +27,9 @@ class Post < ActiveRecord::Base
 		if self.keywords.any?
 			keywords = self.keywords.map { |response_hash| response_hash.name }
 	  		content.split(/(#{keywords.join('|')})/)
-	     		.map {|s| keywords.include?(s) ? s : s.gsub(/./) {|c| (c==' ') ? c : '*'}}#.join
+	     		.map {|s| keywords.include?(s) ? s : s.gsub(/./) {|c| (c==' ') ? c : "\u25A0".encode('utf-8')}}#.join
 	    else
-	    	content.gsub(/./) {|a| (a==' ') ? a : '*'}.split(" ")
+	    	content.gsub(/./) {|a| (a==' ') ? a : "\u25A0".encode('utf-8')}.split(" ")
 	    end
 	end
 

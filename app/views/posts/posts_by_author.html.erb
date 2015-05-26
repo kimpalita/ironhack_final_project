@@ -1,4 +1,7 @@
-<h2>Posts by: <%= @user.name %></h2>
-<p>Archive of posts created by the user</p>
+<div class="page-header">
+  <h3>Posts by <%= image_tag User.find(@user.id).avatar.url(:small),
+  	class: "avatar" %> <%= @user.name %> <small>(<%= @posts.count %>)</small></h3>
+</div>
 
-<%= render 'posts_list_archive' %>
+<%= render 'posts/penny_alert' %>
+<%= render 'posts_list' %>
