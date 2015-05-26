@@ -47,21 +47,7 @@
         </div>
     </div>
     <div class="post-content">
-        <p>
-            <% if @post.keywords.any? %>
-                <% @post.split_keywords_in_content.map{|word| %>
-                <% if Keyword.recurring_keyword?(word) %>
-                    <%= link_to word, browse_keyword_path(word), style:"font-weight:bold;" %>
-                <% elsif @post.extract_keywords.include?(word) %>
-                    <b><%= word %></b>
-                <% else %>
-                    <%= word %>
-                <% end %>
-                <% }.join %>
-            <% else %>
-                <%= @post.content %>
-            <% end %>
-        </p>
+        <%= post_content_to_html(@post) %>
     </div>
 </div>
 <div class="comments-section">

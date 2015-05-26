@@ -15,6 +15,8 @@ var ready = function(){
 
 	$('.dislike-button').click(function() { 
 			console.log("DISLIKED!!!")
+			$('.like-button').remove();
+			$(this).addClass('disabled');
 	});
 }
 

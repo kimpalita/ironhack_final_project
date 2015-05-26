@@ -1,32 +1,31 @@
 module Rewards
 	module Give
-		@@registration = 3
-		@@publishing = 1
-		@@receiving_view = 1
-		@@receiving_like = 1
-		#@@receiving_comment = 0
-		
 		extend self
 
+		PUBLISHING_POINTS   = 1
+		RECEIVE_LIKE_POINTS = 1
+		RECEIVE_VIEW_POINTS = 1
+		REGISTRATION_POINTS = 3
+		
 		def say_hello
 			puts "hello there, you have just been rewarded!"
 		end
 
 		def reward_for_registration(user)
 			reward(user.id, event: :sign_up, description: "You created an account!",
-				subject: nil, object: nil, points: @@registration)
+				subject: nil, object: nil, points: REGISTRATION_POINTS)
 		end
 
 		def reward_for_publishing_post(user, post)
 			reward(user.id, event: :published_post, description: "You published a post: ",
-				subject: nil, object: post.id, points: @@publishing)
+				subject: nil, object: post.id, points: PUBLISHING_POINTS)
 		end
 
 		def reward_for_receiving_view(viewer, post_id)
 			post = Post.find(post_id)
 			user = User.find(post.user_id)
 			reward(user.id, event: :recieved_view, description: " viewed your post: ",
-				subject: viewer.id, object: post_id, points: @@receiving_view)
+				subject: viewer.id, object: post_id, points: RECEIVE_VIEW_POINTS)
 		end
 
 		def reward_for_receiving_like(viewer, post_id)
@@ -36,7 +35,7 @@ module Rewards
 			post = Post.find(post_id)
 			user = User.find(post.user_id)
 			reward(user.id, event: :received_like, description: " liked your post: ",
-				subject: viewer.id, object: post.id, points: @@receiving_like)
+				subject: viewer.id, object: post.id, points: RECEIVE_LIKE_POINTS)
 		end
 
 		def notice_for_receiving_comment(commentor, post)

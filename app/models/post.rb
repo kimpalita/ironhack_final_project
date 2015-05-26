@@ -22,14 +22,13 @@ class Post < ActiveRecord::Base
 	end
 
 	def substitute_content
-		content = self.content
-
 		if self.keywords.any?
 			keywords = self.keywords.map { |response_hash| response_hash.name }
-	  		content.split(/(#{keywords.join('|')})/)
-	     		.map {|s| keywords.include?(s) ? s : s.gsub(/./) {|c| (c==' ') ? c : "\u25A0".encode('utf-8')}}#.join
+	  		self.content.split(/(#{keywords.join('|')})/).map do |s| 
+	  			keywords.include?(s) ? s : s.gsub(/./) { |c| (c==' ') ? c : "\u25A0".encode('utf-8')}
+	  		end
 	    else
-	    	content.gsub(/./) {|a| (a==' ') ? a : "\u25A0".encode('utf-8')}.split(" ")
+	    	self.content.gsub(/./) {|a| (a==' ') ? a : "\u25A0".encode('utf-8')}.split(" ")
 	    end
 	end
 
@@ -38,9 +37,7 @@ class Post < ActiveRecord::Base
 	end
 
 	def split_keywords_in_content
-		content = self.content
-		keywords = self.extract_keywords
-	  	content.split(/(#{keywords.join('|')})/)
+	  	self.content.split(/(#{self.extract_keywords.join('|')})/) || []
 	end
 
 end

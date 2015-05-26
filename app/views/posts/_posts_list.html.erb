@@ -30,17 +30,7 @@
 						</div>
 					</h1>
 					<div class="post-content">
-						<p>
-							<%  post.substitute_content.map do |word| %>
-                          		<% if Keyword.recurring_keyword?(word) %>
-                              		<%= link_to word, browse_keyword_path(word), style:"font-weight:bold;" %>
-                          		<% elsif post.extract_keywords.include?(word) %>
-                          	  		<b><%= word %></b>
-                          		<% else %>
-                              		<%= word %>
-                         		<% end %>
-                          	<% end %>
-						</p>
+						<%= obscured_post_content_to_html(post) %>
 					</div>
 
 			    <% if user_signed_in? && post.user_id != current_user.id %>

@@ -6,18 +6,13 @@
 #   cities = City.create([{ name: "Chicago" }, { name: "Copenhagen" }])
 #   Mayor.create(name: "Emanuel", city: cities.first)
 
-a = User.create name: "Kim", email: "kim@mail.com", password: "12345678", password_confirmation: "12345678"
-b = User.create name: "Mark", email: "mark@mail.com", password: "12345678", password_confirmation: "12345678"
-c = User.create name: "Jas", email: "jas@mail.com", password: "12345678", password_confirmation: "12345678"
+a = User.create name: "PennyBot", email: "bot@mail.com", password: "12345678", password_confirmation: "12345678"
 
+a.posts.create(title: "TV Finales", content: "The award-winning AMC series Mad Men ended its seven-season run on Sunday night and drew critical acclaim for its final episode, a conclusion that many felt was poignant and satisfying. Here are some other memorable TV finales across the years.")
+a.posts.create(title: "Avengers Sequel", content: "Promising that the sequel would continue to follow the impressive feats of an incredible group of revenue streams, executives at Marvel Studios confirmed Friday that Avengers: Age Of Ultron picks up right where the first film’s profits left off.")
+a.posts.create(title: "Repeated keywords", content: "In this text, there may be some recurring keywords. Age Of Ultron picks up right where the first film’s profits left off.")
+a.posts.create(title: "The Sequel", content: "Of course, this film is going to leave the door wide open for possible future Avengers movie profits, and we might even explore the option of earning income from each individual character.” Feige added that careful observers would notice how ticket sale proceeds from the Avengers, Captain America, and Iron Man films were all connected.")
 
-a.posts.create(title: "#{a.name}'s First Post", content: "Words are but wind; and learning is nothing but words; ergo, learning is nothing but wind.")
-
-b.posts.create(title: "#{b.name}'s Second Post", content: "I’ve missed more than 9000 shots in my career. I’ve lost almost 300 games. 26 times I’ve been trusted to take the game winning shot and missed. I’ve failed over and over and over again in my life. And that is why I succeed.")
-
-c.posts.create(title: "#{c.name}'s Third Post", content: "Twenty years from now you will be more disappointed by the things that you didn’t do than by the ones you did do, so throw off the bowlines, sail away from safe harbor, catch the trade winds in your sails.  Explore, Dream, Discover.")
-
-#
 #a.posts_viewed.create(viewed_post_id: "2")
 #a.posts_viewed.create(viewed_post_id: "3")
 #a.posts_viewed.create(viewed_post_id: "4")
