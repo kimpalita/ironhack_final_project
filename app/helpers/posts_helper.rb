@@ -15,7 +15,7 @@ module PostsHelper
 
 	def keyword_to_html(post, word)
 		if Keyword.recurring_keyword?(word)
-			link_to(word, browse_keyword_path(word), style: "font-weight:bold;")
+			link_to(word, filter_post_path(:keyword => word), style: "font-weight:bold;")
 		elsif post.extract_keywords.include?(word)
 			"<b>#{word}</b>"
 		else

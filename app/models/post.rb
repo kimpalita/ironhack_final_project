@@ -9,6 +9,26 @@ class Post < ActiveRecord::Base
 	validates :content, uniqueness: true
 	validates :title, uniqueness: true
 
+	scope :author, -> (user_id) { where user_id: user_id }
+	scope :keyword, -> (keyword) { joins(:keywords).where(keywords: {name: keyword}) }
+	scope :already_viewed, -> (user_id) { joins(:post_viewers).where(viewings: {viewer_id: user_id}) }
+	scope :not_yet_viewed, -> (user_id) { not_yet_viewed(user_id) }
+	scope :most_likes, -> { order(:cached_votes_up => :desc) }
+	scope :most_views, -> {
+		select("posts.id, posts.user_id, posts.content, posts.created_at, posts.title, count(viewings.id) AS views_count").
+		joins(:post_viewers).
+		group("posts.id").
+		order("views_count DESC")
+		}
+
+	
+	def self.not_yet_viewed(user_id)
+		not_mine = where('user_id!=?', user_id)
+		already_viewed = joins(:post_viewers).where(viewings: {viewer_id: user_id})
+		not_mine - already_viewed
+	end
+
+
 	def create_keywords
 		response = AlchemyAPI.search(:keyword_extraction, text: self.content)
 		#string does not always neccessarily yeild keywords

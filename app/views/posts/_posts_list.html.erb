@@ -1,6 +1,7 @@
 <div class="mansonry-row">
 	<% @posts.each do |post| %>
-		<div class="col-md-4" style="<%= 'color: Gray' if user_signed_in? && post.user_id == @user.id %>">
+
+		<div class="col-md-4" style="<%= 'color: Gray' if user_signed_in? && post.user_id == current_user.id %>">
 			<div class="post-container">
 				<div class="row meta-toolbar">
 					<div class="col-md-6">
@@ -26,7 +27,7 @@
 					<%= post.title %>
 					<div class="author-link">
 						<%= image_tag User.find(post.user_id).avatar.url(:thumb), class: "avatar" %>
-						<%= link_to User.find(post.user_id).name, post_author_path(post.user_id) %>
+						<%= link_to User.find(post.user_id).name, filter_post_path(:author => post.user_id) %>
 						</div>
 					</h1>
 					<div class="post-content">
@@ -35,12 +36,12 @@
 
 			    <% if user_signed_in? && post.user_id != current_user.id %>
 					<% if @viewed_posts.include?(post) %>
-						<%= button_to "View Content", user_post_path(@user.id, post.id), method: :get, class: "btn btn-default btn-lg btn-block" %>
+						<%= button_to "View Content", user_post_path(current_user.id, post.id), method: :get, class: "btn btn-default btn-lg btn-block" %>
 					<% else %>
 						<%= button_to "Spend a penny!", create_view_path(post.id), class: "btn btn-primary btn-lg btn-block", disabled: current_user.total_points == 0 ? true : false %>
 					<% end %>
 				<% elsif user_signed_in? && post.user_id == current_user.id %>
-					<%= button_to "View Content", user_post_path(@user.id, post.id), method: :get, class: "btn btn-default btn-lg btn-block" %>
+					<%= button_to "View Content", user_post_path(current_user.id, post.id), method: :get, class: "btn btn-default btn-lg btn-block" %>
 				<% end %>
 				
 			</div>

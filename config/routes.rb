@@ -23,6 +23,10 @@ Rails.application.routes.draw do
 
   get 'public_profile/:id' => 'users#profile', as: :user_profile
 
+  get '/filter' => 'posts#filter', as: :filter_post
+  get '/sort' => 'posts#sort', as: :sort_post
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

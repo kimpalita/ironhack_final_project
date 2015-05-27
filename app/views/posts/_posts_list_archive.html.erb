@@ -24,7 +24,7 @@
 						<%= post.title %>
 						<span class="author-link">
 							<%= image_tag User.find(post.user_id).avatar.url(:thumb), class: "avatar" %>
-							<%= link_to User.find(post.user_id).name, post_author_path(post.user_id) %>
+							<%= link_to User.find(post.user_id).name, filter_post_path(:author => post.user_id) %>
 						</span>
 					</h1>
 				</div>

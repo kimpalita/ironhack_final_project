@@ -2,7 +2,7 @@
   <h3>Event Log <small> You currently have <%= current_user.total_points %> pennies</small></h3>
 </div>
 
-<%= render 'posts/penny_alert' %>
+<%= render 'shared/penny_alert' %>
 
 <ul class="list-group">
 	<% @rewards.each do |reward| %>
@@ -12,7 +12,7 @@
 		  	  <p>
 		  	  	<%= render_reward reward %>
 				<% if reward.subject != nil && User.find_by_id(reward.subject) != nil %>
-					<%= link_to post_author_path(reward.subject) do %> 
+					<%= link_to filter_post_path(:author => reward.subject) do %> 
 						<%= image_tag User.find(reward.subject).avatar.url(:thumb) %>
 						<%=  User.find(reward.subject).name %>
 					<% end %>
