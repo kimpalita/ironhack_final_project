@@ -1,4 +1,10 @@
 module PostsHelper
+	include Rewards::Spend
+
+	def render_penny_alert(user)
+		render ("shared/penny_alert") if user.total_points < VIEWING_POST
+	end
+
 	def obscured_post_content_to_html(post)
 		content_to_html(post, obscure_non_keywords(post))
 	end
@@ -26,10 +32,9 @@ module PostsHelper
 		elsif post.user_id == current_user.id
 			button_to("View Content", user_post_path(current_user.id, post.id), method: :get, class: "btn btn-default btn-lg btn-block")
 		else
-			button_to("Spend a penny!", create_view_path(post.id), class: "btn btn-primary btn-lg btn-block", disabled: current_user.total_points == 0 ? true : false)
+			button_to("Spend your pennies!", create_view_path(post.id), class: "btn btn-primary btn-lg btn-block", disabled: current_user.total_points < VIEWING_POST ? true : false)
 		end
 	end
-
 
 
 	private
@@ -49,18 +54,25 @@ module PostsHelper
 	end
 
 	def extract_keywords(post)
-		post.keywords.map { |hash| hash.name }
+		post.keywords.map { |keyword| keyword.name }
 	end
 
 	def obscure_non_keywords(post)
 		if post.keywords.any?
 			keywords = post.keywords.map { |response_hash| response_hash.name }
-	  		post.content.split(/(#{keywords.join('|')})/).map do |s| 
-	  			keywords.include?(s) ? s : s.gsub(/./) { |c| (c==' ') ? c : "\u25A0".encode('utf-8')}
+	  		#post.content.split(/(#{keywords.join('|')})/).map do |s|
+	  		split_keywords_in_content(post).map do |word| 
+	  			#keywords.include?(s) ? s : s.gsub(/./) { |c| (c==' ') ? c : "\u25A0".encode('utf-8')}
+	  			keywords.include?(word) ? word : substitute_characters(word)
 	  		end
 	    else
-	    	post.content.gsub(/./) {|a| (a==' ') ? a : "\u25A0".encode('utf-8')}.split(" ")
+	    	#post.content.gsub(/./) {|a| (a==' ') ? a : "\u25A0".encode('utf-8')}.split(" ")
+	    	substitute_characters(post.content).split(" ")
 	    end
+	end
+
+	def substitute_characters(characters)
+		characters.gsub(/./) {|char| (char==' ') ? char : "\u25A0".encode('utf-8')}
 	end
 
 	def split_keywords_in_content(post)

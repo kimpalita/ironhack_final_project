@@ -21,8 +21,6 @@ Rails.application.routes.draw do
   post '/users/:user_id/posts/:id/dislike' => 'posts#dislike', as: :dislike_post
   post '/users/:user_id/posts/:id' => 'comments#create', as: :comments
 
-  get 'public_profile/:id' => 'users#profile', as: :user_profile
-
   get '/filter' => 'posts#filter', as: :filter_post
   get '/sort' => 'posts#sort', as: :sort_post
 

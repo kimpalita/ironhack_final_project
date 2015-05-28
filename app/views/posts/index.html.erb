@@ -2,5 +2,10 @@
   <h3>All Posts</h3>
 </div>
 
-<%= render 'shared/penny_alert' %>
+<%= render_penny_alert current_user %>
+
+<% if !user_signed_in? %>
+	<%= render 'posts/welcome_message' %>
+<% end %>
+
 <%= render 'posts/posts_list' %>

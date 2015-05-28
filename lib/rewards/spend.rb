@@ -1,6 +1,6 @@
 module Rewards
 	module Spend
-		@@viewing_post = 1
+		VIEWING_POST = 2
 
 		extend self
 
@@ -14,7 +14,7 @@ module Rewards
 			puts "--------------------------------"
 			post = Post.find(post_id)
 			author = User.find(post.user_id)
-			reward(viewer.id, event: :viewing_post, description: "You viewed the post: ", subject: nil, object: post_id, points: -@@viewing_post)
+			reward(viewer.id, event: :viewing_post, description: "You viewed the post: ", subject: nil, object: post_id, points: -VIEWING_POST)
 		end
 
 		private

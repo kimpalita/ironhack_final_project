@@ -10,25 +10,14 @@
 		  <div class="row">
 		  	<div class="col-md-10">
 		  	  <p>
-		  	  	<%= render_reward reward %>
-				<% if reward.subject != nil && User.find_by_id(reward.subject) != nil %>
-					<%= link_to filter_post_path(:author => reward.subject) do %> 
-						<%= image_tag User.find(reward.subject).avatar.url(:thumb) %>
-						<%=  User.find(reward.subject).name %>
-					<% end %>
-				<% elsif reward.subject != nil %>
-					<span class="non-existent">User no longer exists</span>
-				<% end %>
+
+		  	  	<!-- helper method -->
+				<%= render_subject_for reward if !reward.subject.nil?  %>
 
 				<%= reward.description %>
-
-				<% if reward.object != nil && Post.find_by_id(reward.object) != nil %>
-					<%= link_to Post.find(reward.object).title, user_post_path(current_user.id, reward.object) %>
-				<% elsif reward.object == nil %>
-					
-				<% elsif Post.find_by_id(reward.object) == nil %>
-					<span class="non-existent">Post no longer exists</span>
-				<% end %>
+				
+				<!-- helper method -->
+				<%= render_object_for reward if !reward.object.nil? %>
 		      </p>
 			</div>
 			<div class="col-md-2">

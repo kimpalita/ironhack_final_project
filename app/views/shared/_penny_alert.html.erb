@@ -1,6 +1,4 @@
-<% if user_signed_in? && current_user.total_points == 0 %>
 <div class="alert alert-info" role="alert">
   <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  Looks like you've spent all your pennies. <%= link_to "Create a new post", new_user_post_path(current_user.id) %> to earn more!
+  <b>Oops!</b> Looks like you may not have enough pennies to spend. <%= link_to "Create a new post", new_user_post_path(current_user.id) %> to earn more!
 </div>
-<% end %>

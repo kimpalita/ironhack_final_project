@@ -11,7 +11,4 @@ class UsersController < ApplicationController
 		@total_points = current_user.total_points
 	end
 
-	def profile
-		@user = User.find(params[:id])
-	end
 end
