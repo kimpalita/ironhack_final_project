@@ -1,3 +1,17 @@
-<h1>Filtered Search</h1>
+<div class="page-header">
+  <% if params[:author] %>
+		<h3>Posts By Author: <%= image_tag User.find(params[:author]).avatar.url(:small) %> 
+			<%= User.find(params[:author]).name %></h3>
+	<% elsif params[:keyword] %>
+		<h3>Posts By Keyword: '<%= params[:keyword] %>'</h3>
+	<% elsif params[:already_viewed] %>
+		<h3>Posts Already Viewed</h3>
+	<% elsif params[:not_yet_viewed] %>
+		<h3>Posts Not Yet Viewed</h3>
+	<% else %>
+		<h3>Filtered Posts</h3>
+	<% end %>
+</div>
 
+<%= render 'shared/penny_alert' %>
 <%= render 'posts_list' %>

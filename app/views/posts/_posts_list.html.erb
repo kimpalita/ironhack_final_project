@@ -1,11 +1,11 @@
 <div class="mansonry-row">
 	<% @posts.each do |post| %>
 
-		<div class="col-md-4" style="<%= 'color: Gray' if user_signed_in? && post.user_id == current_user.id %>">
+		<div class="col-md-4">
 			<div class="post-container">
 				<div class="row meta-toolbar">
 					<div class="col-md-6">
-					<p><%= post.created_at.strftime("%m %b") %>
+					<p><%= post.created_at.strftime("%d %b") %>
 						<% if user_signed_in? && @viewed_posts.include?(post) %>
 								<span class="viewed-post-tag red" data-toggle="tooltip" data-placement="bottom" title="You already viewed this post. This won't cost you another penny"> Viewed <span class="glyphicon glyphicon-question-sign"></span></span>
 						<% end %>
@@ -15,11 +15,7 @@
 					</p>
 					</div>
 					<div class="col-md-6">
-						<div class="right">
-						  <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><%= post.post_viewers.count %> 
-						  <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span><%= post.get_likes.size %> 
-						  <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span><%= post.get_dislikes.size %>
-						</div>
+						<%= render 'shared/meta_toolbar_counters', post: post %>
 					</div>
 			    </div>
 
@@ -28,20 +24,15 @@
 					<div class="author-link">
 						<%= image_tag User.find(post.user_id).avatar.url(:thumb), class: "avatar" %>
 						<%= link_to User.find(post.user_id).name, filter_post_path(:author => post.user_id) %>
-						</div>
-					</h1>
-					<div class="post-content">
-						<%= obscured_post_content_to_html(post) %>
 					</div>
+				</h1>
 
-			    <% if user_signed_in? && post.user_id != current_user.id %>
-					<% if @viewed_posts.include?(post) %>
-						<%= button_to "View Content", user_post_path(current_user.id, post.id), method: :get, class: "btn btn-default btn-lg btn-block" %>
-					<% else %>
-						<%= button_to "Spend a penny!", create_view_path(post.id), class: "btn btn-primary btn-lg btn-block", disabled: current_user.total_points == 0 ? true : false %>
-					<% end %>
-				<% elsif user_signed_in? && post.user_id == current_user.id %>
-					<%= button_to "View Content", user_post_path(current_user.id, post.id), method: :get, class: "btn btn-default btn-lg btn-block" %>
+				<div class="post-content">
+					<%= obscured_post_content_to_html(post) %>
+				</div>
+
+				<% if user_signed_in? %>
+					<%= render_view_button_for post %>
 				<% end %>
 				
 			</div>

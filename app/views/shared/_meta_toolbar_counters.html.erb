@@ -1,0 +1,8 @@
+<div class="right">
+    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+    <%= post.post_viewers.count %> 
+    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+    <span class="like-counter"><%= post.get_likes.size %></span> 
+    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+    <span class="dislike-counter"><%= post.get_dislikes.size %></span> 
+</div>

@@ -1,14 +1,16 @@
 class Post < ActiveRecord::Base
 	belongs_to :user
 	has_many :post_viewers, :class_name => "Viewing", :foreign_key => "viewed_post_id"
-	has_many :keywords
-	has_many :comments
+	has_many :keywords, dependent: :destroy
+	has_many :comments, dependent: :destroy
 
 	acts_as_votable
 
-	validates :content, uniqueness: true
-	validates :title, uniqueness: true
+	validates :content, presence: true, uniqueness: true, length: {minimum: 20, maximum: 600}
+	validate :detectable_language
+	validates :title, presence: true, uniqueness: true, length: {minimum: 3, maximum: 48}
 
+	#Scopes for filtering and sorting
 	scope :author, -> (user_id) { where user_id: user_id }
 	scope :keyword, -> (keyword) { joins(:keywords).where(keywords: {name: keyword}) }
 	scope :already_viewed, -> (user_id) { joins(:post_viewers).where(viewings: {viewer_id: user_id}) }
@@ -20,7 +22,6 @@ class Post < ActiveRecord::Base
 		group("posts.id").
 		order("views_count DESC")
 		}
-
 	
 	def self.not_yet_viewed(user_id)
 		not_mine = where('user_id!=?', user_id)
@@ -28,6 +29,12 @@ class Post < ActiveRecord::Base
 		not_mine - already_viewed
 	end
 
+	def detectable_language
+		results = AlchemyAPI.search(:language_detection, text: content)
+		unless permitted_languages.include?(results["language"])
+			errors.add(:content, "unable to detect language or content is not a permitted language.")
+		end
+	end
 
 	def create_keywords
 		response = AlchemyAPI.search(:keyword_extraction, text: self.content)
@@ -37,27 +44,9 @@ class Post < ActiveRecord::Base
 		end
 	end
 
-	def extract_keywords
-		self.keywords.map { |hash| hash.name }
-	end
-
-	def substitute_content
-		if self.keywords.any?
-			keywords = self.keywords.map { |response_hash| response_hash.name }
-	  		self.content.split(/(#{keywords.join('|')})/).map do |s| 
-	  			keywords.include?(s) ? s : s.gsub(/./) { |c| (c==' ') ? c : "\u25A0".encode('utf-8')}
-	  		end
-	    else
-	    	self.content.gsub(/./) {|a| (a==' ') ? a : "\u25A0".encode('utf-8')}.split(" ")
-	    end
-	end
-
-	def substitute_content_without_keywords(content)
-		content.gsub(/./) {|a| (a==' ') ? a : '*'}
-	end
-
-	def split_keywords_in_content
-	  	self.content.split(/(#{self.extract_keywords.join('|')})/) || []
+	private
+	def permitted_languages
+		["english", "spanish", "french", "german", "italian"]
 	end
 
 end

@@ -11,10 +11,6 @@ class PostsController < ApplicationController
 
 	def filter
 		@posts = Post.where(nil)
-		#@posts = Post.author(params[:author]) if params[:author].present?
-		#@posts = Post.keyword(params[:keyword]) if params[:keyword].present?
-		#@posts = Post.already_viewed(params[:already_viewed]) if params[:already_viewed].present?
-		#@posts = Post.not_yet_viewed(params[:not_yet_viewed]) if params[:not_yet_viewed].present?
 		@viewed_posts = Post.already_viewed(current_user.id) if user_signed_in?
 		filtering_params(params).each do |key, value|
 		    @posts = @posts.public_send(key, value) if value.present?
@@ -31,7 +27,7 @@ class PostsController < ApplicationController
 	def show
 		@user = current_user
 		@post = Post.find(params[:id])
-		@comments = @post.comments
+		@comments = @post.comments.order(created_at: :desc)
 		@comment = Comment.new
 	end
 
@@ -57,8 +53,6 @@ class PostsController < ApplicationController
 			Rewards::Give.reward_for_publishing_post(current_user, @post)
 			redirect_to user_post_path(current_user.id, @post.id)
 		else
-			#@user = current_user
-			#@post = current_user.posts.new post_params
 			render :new
 		end
 	end
@@ -86,8 +80,8 @@ class PostsController < ApplicationController
 		redirect_to my_posts_path
 	end
 
-	private
 
+	private
 	def post_params
 		params.require(:post).permit(:title, :content)
 	end
@@ -97,3 +91,11 @@ class PostsController < ApplicationController
 	end
 
 end
+
+
+#OLD STUFF FOR REFERENCE
+#------------------------
+#@posts = Post.author(params[:author]) if params[:author].present?
+#@posts = Post.keyword(params[:keyword]) if params[:keyword].present?
+#@posts = Post.already_viewed(params[:already_viewed]) if params[:already_viewed].present?
+#@posts = Post.not_yet_viewed(params[:not_yet_viewed]) if params[:not_yet_viewed].present?

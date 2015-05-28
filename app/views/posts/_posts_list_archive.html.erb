@@ -3,18 +3,14 @@
 		<li class="list-group-item">
 			<div class="row meta-toolbar">
 					<div class="col-md-6">
-					<p><%= post.created_at.strftime("%m %b") %>
+					<p><%= post.created_at.strftime("%d %b") %>
 						<% if post.user_id != current_user.id %>
-						<span class="date-viewed">(viewed: <%= Viewing.where('viewer_id=? AND viewed_post_id=?', current_user.id, post.id).first.created_at.strftime("%m %b") %>)</span>
+						<span class="date-viewed">(viewed: <%= Viewing.where('viewer_id=? AND viewed_post_id=?', current_user.id, post.id).first.created_at.strftime("%d %b") %>)</span>
 						<% end %>
 					</p>
 					</div>
 					<div class="col-md-6">
-						<div class="right">
-						  <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span><%= post.post_viewers.count %> 
-						  <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span><%= post.get_likes.size %> 
-						  <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span><%= post.get_dislikes.size %> 
-					  	</div>
+						<%= render 'shared/meta_toolbar_counters', post: post %>
 					</div>
 			</div>
 

@@ -25,7 +25,7 @@ module Rewards
 			post = Post.find(post_id)
 			user = User.find(post.user_id)
 			reward(user.id, event: :recieved_view, description: " viewed your post: ",
-				subject: viewer.id, object: post_id, points: RECEIVE_VIEW_POINTS)
+				subject: viewer.id, object: post_id, points: nil)
 		end
 
 		def reward_for_receiving_like(viewer, post_id)
