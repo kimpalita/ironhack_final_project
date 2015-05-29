@@ -7,9 +7,6 @@ module Rewards
 		RECEIVE_VIEW_POINTS = 1
 		REGISTRATION_POINTS = 3
 		
-		def say_hello
-			puts "hello there, you have just been rewarded!"
-		end
 
 		def reward_for_registration(user)
 			reward(user.id, event: :sign_up, description: "You created an account!",

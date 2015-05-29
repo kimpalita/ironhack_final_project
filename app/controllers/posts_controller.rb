@@ -7,6 +7,7 @@ class PostsController < ApplicationController
 	def index
 		@posts = Post.all.order(created_at: :desc)
 		@viewed_posts = Post.already_viewed(current_user.id) if user_signed_in?
+		#@unviewed_posts = @posts - @viewed_posts
 	end
 
 	def filter
@@ -15,12 +16,12 @@ class PostsController < ApplicationController
 		filtering_params(params).each do |key, value|
 		    @posts = @posts.public_send(key, value) if value.present?
 		end
+		
 	end
 
 	def sort
 		@posts = Post.where(nil)
 		@posts = Post.most_likes
-		@posts = Post.most_views
 		@viewed_posts = Post.already_viewed(current_user.id) if user_signed_in?
 	end
 

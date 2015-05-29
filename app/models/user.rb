@@ -14,9 +14,10 @@ class User < ActiveRecord::Base
 
 	acts_as_voter
 
-	
 	def total_points
 		self.rewards.sum(:points)
 	end
+
+
 
 end

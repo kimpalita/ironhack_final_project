@@ -1,10 +1,9 @@
-<div class="page-header">
-  <h3>All Posts</h3>
-</div>
-
-<%= render_penny_alert current_user %>
-
-<% if !user_signed_in? %>
+<% if user_signed_in? %>
+	<div class="page-header">
+	  <h3>All Posts</h3>
+	</div>
+	<%= render_penny_alert current_user %>
+<% else %>
 	<%= render 'posts/welcome_message' %>
 <% end %>
 

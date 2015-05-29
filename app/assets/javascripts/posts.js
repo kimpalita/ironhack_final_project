@@ -6,8 +6,13 @@ var ready = function(){
   		$('[data-toggle="tooltip"]').tooltip()
 	});
 
-	function addOne() {
+	function addLike() {
         var number  =   parseInt($('.like-counter').html());
+        return number + 1;
+	}
+
+	function addDislike() {
+        var number  =   parseInt($('.dislike-counter').html());
         return number + 1;
 	}
 
@@ -15,14 +20,14 @@ var ready = function(){
 			console.log("LIKED!!!")
 			$('.dislike-button').remove();
 			$(this).addClass('disabled');
-			$('.like-counter').text(addOne());
+			$('.like-counter').text(addLike());
 	});
 
 	$('.dislike-button').click(function() { 
 			console.log("DISLIKED!!!")
 			$('.like-button').remove();
 			$(this).addClass('disabled');
-			$('.dislike-counter').text(addOne());
+			$('.dislike-counter').text(addDislike());
 	});
 }
 

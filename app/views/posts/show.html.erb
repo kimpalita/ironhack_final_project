@@ -18,7 +18,7 @@
               <% else %>
                 
                 <% if current_user.voted_as_when_voted_for @post %>
-                    <p><span class="red">You liked this post!</span></p>
+                    <span class="badge"><i class="fa fa-thumbs-up"></i> You liked this post!</span>
                 <% elsif current_user.voted_as_when_voted_for(@post).nil? %>
                     <%= button_to like_post_path(current_user, @post), :remote => true, method: :post, class: "btn btn-primary btn-sm like-button" do %>
                     <span class="glyphicon glyphicon-thumbs-up white"></span>Like
@@ -27,7 +27,7 @@
                         <span class="glyphicon glyphicon-thumbs-down white"></span>Dislike
                     <% end %>
                 <% else %>
-                    <p><span class="red">You disliked this post!</span></p>
+                    <span class="badge"><i class="fa fa-thumbs-down"></i> You disliked this post!</span>
                 <% end %>
 
               <% end %>
@@ -64,11 +64,18 @@
 
 
             <div class="col-md-12 comment-form">
-                <%= form_for @comment, html: { method: :post } do |f| %>
-                <%= f.text_field :body, :style => 'display:inline-block;' %>
-                <%= f.submit 'Add comment', :class => 'btn btn-primary btn-sm' %>
-                <% end %>
+                <div class="row">
+                    <%= form_for @comment, html: { method: :post } do |f| %>
+                    <div class="col-md-9">
+                        <%= f.text_field :body, placeholder: 'Comment...' %>
+                    </div>
+                    <div class="col-md-3">
+                        <%= f.submit 'Add', :class => 'btn btn-primary btn-md' %>
+                    </div>
+                    <% end %>
+                </div>
             </div>
+
         </div>
         <div class="row">
             <div class="col-md-12 comment-list">

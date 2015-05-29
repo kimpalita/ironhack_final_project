@@ -1,19 +1,23 @@
-<div class="page-header">
-  <h3>Create New Post</h3>
+
+		<div class="page-header">
+		  <h3>Create New Post</h3>
+		</div>
+
+<div class="row">
+	<div class="col-md-6">
+		<% if @post.errors.any? %>
+			<ul>
+				<% @post.errors.full_messages.each do |error_msg| %>
+					<li><%= error_msg %></li>
+				<% end %>	
+			</ul>
+		<% end %>
+
+		<%= form_for [current_user, @post], html: { method: :post } do |f| %>
+			<%= f.text_field :title, placeholder: 'Post Title' %>
+			<%= f.text_area :content, placeholder: 'Post content', rows: 5 %>
+			<%= f.submit('Publish', class: "btn btn-primary btn-lg btn-block") %>
+		<% end %>
+
+	</div>
 </div>
-
-<% if @post.errors.any? %>
-	<ul>
-		<% @post.errors.full_messages.each do |error_msg| %>
-			<li><%= error_msg %></li>
-		<% end %>	
-	</ul>
-<% end %>
-
-<%= form_for [current_user, @post], html: { method: :post } do |f| %>
-	<%= f.label :title %>
-	<%= f.text_field :title %>
-	<%= f.label :content %>
-	<%= f.text_area :content %>
-	<%= f.submit('Publish') %>
-<% end %>

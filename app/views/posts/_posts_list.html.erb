@@ -5,12 +5,12 @@
 			<div class="post-container">
 				<div class="row meta-toolbar">
 					<div class="col-md-6">
-					<p><%= post.created_at.strftime("%d %b") %>
+					<p class="date-published"><%= post.created_at.strftime("%d %b") %>
 						<% if user_signed_in? && @viewed_posts.include?(post) %>
-								<span class="viewed-post-tag red" data-toggle="tooltip" data-placement="bottom" title="You already viewed this post. This won't cost you another penny"> Viewed <span class="glyphicon glyphicon-question-sign"></span></span>
+								<span class="badge viewed-post-tag" data-toggle="tooltip" data-placement="bottom" title="You already viewed this post. This won't cost you another penny"> Viewed <span class="glyphicon glyphicon-question-sign"></span></span>
 						<% end %>
 						<% if user_signed_in? && post.user_id == current_user.id %>
-								<span class="glyphicon glyphicon-question-sign red" data-toggle="tooltip" data-placement="bottom" title="This is a post you created."></span>
+								<span class="badge"> My post<span class="glyphicon glyphicon-question-sign" data-toggle="tooltip" data-placement="bottom" title="This is a post you created."></span></span>
 						<% end %>
 					</p>
 					</div>

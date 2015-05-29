@@ -2,22 +2,23 @@
   <h3>Event Log <small> You currently have <%= current_user.total_points %> pennies</small></h3>
 </div>
 
-<%= render 'shared/penny_alert' %>
+
+<% if user_signed_in? %>
+	<%= render_penny_alert current_user %>
+<% end %>
 
 <ul class="list-group">
 	<% @rewards.each do |reward| %>
 		<li class="list-group-item">
 		  <div class="row">
-		  	<div class="col-md-10">
+		    <div class="col-md-1 reward-date">
+		    	<%= reward.created_at.strftime("%d %b") %>
+		    </div>
+		  	<div class="col-md-9">
 		  	  <p>
-
-		  	  	<!-- helper method -->
-				<%= render_subject_for reward if !reward.subject.nil?  %>
-
+				<%= render_subject_for reward if !reward.subject.nil?  %><!-- helper method -->
 				<%= reward.description %>
-				
-				<!-- helper method -->
-				<%= render_object_for reward if !reward.object.nil? %>
+				<%= render_object_for reward if !reward.object.nil? %><!-- helper method -->
 		      </p>
 			</div>
 			<div class="col-md-2">

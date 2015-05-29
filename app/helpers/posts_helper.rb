@@ -27,15 +27,23 @@ module PostsHelper
 	end
 
 	def render_view_button_for(post)
-		if @viewed_posts.include?(post)
-			button_to("View Content", user_post_path(current_user.id, post.id), method: :get, class: "btn btn-default btn-lg btn-block")
-		elsif post.user_id == current_user.id
-			button_to("View Content", user_post_path(current_user.id, post.id), method: :get, class: "btn btn-default btn-lg btn-block")
+		if @viewed_posts.include?(post) || current_user.id == post.user_id
+			button_to(user_post_path(current_user.id, post.id), method: :get, class: "view-content-btn btn btn-default btn-lg btn-block") do
+				"<i class='fa fa-circle'></i>".html_safe
+			end
 		else
-			button_to("Spend your pennies!", create_view_path(post.id), class: "btn btn-primary btn-lg btn-block", disabled: current_user.total_points < VIEWING_POST ? true : false)
+			button_to(create_view_path(post.id), class: "btn btn-primary btn-lg btn-block", disabled: current_user.total_points < VIEWING_POST ? true : false) do
+				"<i class='fa fa-circle'></i>".html_safe
+			end
 		end
 	end
 
+	def render_post_tags(post)
+		if @viewed_posts.include?(post)
+		end
+		if post.user_id == current_user.id
+		end
+	end
 
 	private
 	def content_to_html(post, words)
