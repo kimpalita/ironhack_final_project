@@ -1,7 +1,20 @@
 <div class="jumbotron">
   <h1>Welcome!</h1>
   <p>
-  	Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus eu sodales libero. Integer pretium eleifend fringilla. Phasellus a vestibulum mi, non luctus est. Quisque non nulla luctus, cursus purus sed, pretium erat. Fusce porttitor tincidunt nisl sit amet imperdiet. Etiam consequat congue est sed posuere. Pellentesque vehicula tristique elementum. Mauris gravida nulla quis felis maximus, a lobortis mi luctus. Etiam sodales tincidunt iaculis.
+  	A participatory microblogging platform with a twist. When browsing posts, only the title and content
+  	keywords are visible. In order access the full contents, you must spend your ‘pennies’.
+	You're given a few to spend upon registration, to earn more, publish a post. Likes for your post will also earn you pennies.
   </p>
-  <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+
+  <p>
+	When browsing, posts you've already spend your pennies on are tagged with 
+	<span class="badge viewed-post-tag"> Viewed </span>, posts you created are tagged with
+	<span class="badge viewed-post-tag"> My post </span>
+  </p>
+  <p>
+  	<%= link_to new_user_registration_path, method: :get, class: "btn btn-primary btn-lg" do %>
+	    <i class="fa fa-pencil"></i> Get Started!
+	<% end %>
+  </p>
 </div>
+

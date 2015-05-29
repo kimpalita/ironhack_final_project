@@ -16,8 +16,9 @@
 		<%= form_for [current_user, @post], html: { method: :post } do |f| %>
 			<%= f.text_field :title, placeholder: 'Post Title' %>
 			<%= f.text_area :content, placeholder: 'Post content', rows: 5 %>
-			<%= f.submit('Publish', class: "btn btn-primary btn-lg btn-block") %>
+			<%= f.submit('Publish', class: "btn btn-primary btn-lg btn-block") %><br />	
 		<% end %>
+		<%= button_to 'Cancel', :back, method: :get, class: "btn btn-default btn-lg btn-block" %>
 
 	</div>
 </div>

@@ -3,7 +3,6 @@ class PostsController < ApplicationController
 	include Rewards::Spend
 	before_action :authenticate_user!, :except => [:index, :browse_keyword, :posts_by_author]
 
-
 	def index
 		@posts = Post.all.order(created_at: :desc)
 		@viewed_posts = Post.already_viewed(current_user.id) if user_signed_in?
@@ -34,12 +33,13 @@ class PostsController < ApplicationController
 
 	def viewed
 		@user = current_user
-		@posts = @user.posts_viewed.map {|post| Post.where('id=?', post.viewed_post_id)}.flatten
+		@posts = @user.posts_viewed.order('created_at DESC')
+			.map {|post| Post.where('id=?', post.viewed_post_id)}.flatten
 	end
 
 	def my_posts
 		@user = current_user
-		@posts = @user.posts
+		@posts = @user.posts.order('created_at DESC')
 	end
 
 	def new

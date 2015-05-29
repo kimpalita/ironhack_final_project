@@ -8,7 +8,7 @@ class Post < ActiveRecord::Base
 
 	validates :content, presence: true, uniqueness: true, length: {minimum: 20, maximum: 1000}
 	validate :detectable_language
-	validates :title, presence: true, uniqueness: true, length: {minimum: 3, maximum: 48}
+	validates :title, presence: true, uniqueness: true, length: {minimum: 3, maximum: 72}
 
 	#Scopes for filtering and sorting
 	scope :author, -> (user_id) { where user_id: user_id }

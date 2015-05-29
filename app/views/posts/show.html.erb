@@ -45,7 +45,17 @@
     <div class="post-content">
         <%= post_content_to_html(@post) %>
     </div>
+    <div class="row">
+        <div class="col-md-3 right">
+            <%= button_to :back, method: :get, class: 'btn btn-default btn-md right' do %>
+                <i class="fa fa-step-backward"></i> Back
+            <% end %>
+            
+        </div>
+    </div>
 </div>
+
+
 <div class="comments-section">
         <div class="row">
             <div class="col-md-12">
